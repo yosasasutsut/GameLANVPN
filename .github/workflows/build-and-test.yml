@@ -1,0 +1,104 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  CONFIGURATION: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+    name: Build and Test
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: GameLANVPN
+
+    - name: Build solution
+      run: dotnet build --configuration ${{ env.CONFIGURATION }} --no-restore
+      working-directory: GameLANVPN
+
+    - name: Run tests
+      run: dotnet test --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
+      working-directory: GameLANVPN
+      continue-on-error: true
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results
+        path: GameLANVPN/**/test-results.trx
+
+    - name: Build Client Application
+      run: dotnet publish src/Client/GameLANVPN.UI/GameLANVPN.UI.csproj --configuration ${{ env.CONFIGURATION }} --output ./publish/client --self-contained true --runtime win-x64
+      working-directory: GameLANVPN
+
+    - name: Build Server Application
+      run: dotnet publish src/Server/GameLANVPN.Server/GameLANVPN.Server.csproj --configuration ${{ env.CONFIGURATION }} --output ./publish/server --self-contained true --runtime win-x64
+      working-directory: GameLANVPN
+
+    - name: Upload Client Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: GameLANVPN-Client-${{ github.sha }}
+        path: GameLANVPN/publish/client/
+
+    - name: Upload Server Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: GameLANVPN-Server-${{ github.sha }}
+        path: GameLANVPN/publish/server/
+
+  code-analysis:
+    runs-on: windows-latest
+    name: Code Quality Analysis
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Install dotnet format
+      run: dotnet tool install -g dotnet-format
+
+    - name: Check code formatting
+      run: dotnet format --verify-no-changes --verbosity diagnostic
+      working-directory: GameLANVPN
+      continue-on-error: true
+
+    - name: Security scan
+      run: |
+        dotnet tool install -g security-scan
+        security-scan GameLANVPN.sln
+      working-directory: GameLANVPN
+      continue-on-error: true

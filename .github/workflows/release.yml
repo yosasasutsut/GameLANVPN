@@ -1,0 +1,208 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.0.0)'
+        required: true
+        type: string
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  CONFIGURATION: Release
+
+jobs:
+  create-release:
+    runs-on: windows-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      version: ${{ steps.get_version.outputs.version }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Get version
+      id: get_version
+      run: |
+        if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+          echo "version=${{ github.event.inputs.version }}" >> $env:GITHUB_OUTPUT
+        } else {
+          $version = "${{ github.ref_name }}".Replace("v", "")
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+        }
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.get_version.outputs.version }}
+        release_name: GameLAN VPN v${{ steps.get_version.outputs.version }}
+        body: |
+          ## What's New in v${{ steps.get_version.outputs.version }}
+
+          ### Features
+          - Virtual LAN gaming over Internet
+          - Room management system
+          - Real-time packet relay
+          - Support for classic LAN games
+
+          ### Installation
+          1. Download the appropriate package below
+          2. Extract to your desired location
+          3. Run GameLANVPN.UI.exe (Client) or GameLANVPN.Server.exe (Server)
+          4. Follow the setup wizard
+
+          ### Requirements
+          - Windows 10/11
+          - .NET 8.0 Runtime (included in self-contained build)
+          - Administrator privileges for network adapter
+
+        draft: false
+        prerelease: false
+
+  build-and-release:
+    needs: create-release
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - name: Client
+            project: src/Client/GameLANVPN.UI/GameLANVPN.UI.csproj
+            output: GameLANVPN-Client
+          - name: Server
+            project: src/Server/GameLANVPN.Server/GameLANVPN.Server.csproj
+            output: GameLANVPN-Server
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: GameLANVPN
+
+    - name: Build and Publish ${{ matrix.name }}
+      run: |
+        dotnet publish ${{ matrix.project }} `
+          --configuration ${{ env.CONFIGURATION }} `
+          --output ./publish/${{ matrix.name }} `
+          --self-contained true `
+          --runtime win-x64 `
+          -p:PublishSingleFile=true `
+          -p:IncludeNativeLibrariesForSelfExtract=true `
+          -p:Version=${{ needs.create-release.outputs.version }}
+      working-directory: GameLANVPN
+
+    - name: Create ZIP archive
+      run: |
+        Compress-Archive -Path GameLANVPN/publish/${{ matrix.name }}/* `
+          -DestinationPath ${{ matrix.output }}-v${{ needs.create-release.outputs.version }}-win-x64.zip
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: ${{ matrix.output }}-v${{ needs.create-release.outputs.version }}-win-x64.zip
+        asset_name: ${{ matrix.output }}-v${{ needs.create-release.outputs.version }}-win-x64.zip
+        asset_content_type: application/zip
+
+  create-installer:
+    needs: create-release
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Build All Components
+      run: |
+        dotnet publish src/Client/GameLANVPN.UI/GameLANVPN.UI.csproj `
+          --configuration Release `
+          --output ./installer/client `
+          --self-contained false `
+          --runtime win-x64
+
+        dotnet publish src/Server/GameLANVPN.Server/GameLANVPN.Server.csproj `
+          --configuration Release `
+          --output ./installer/server `
+          --self-contained false `
+          --runtime win-x64
+      working-directory: GameLANVPN
+
+    - name: Create Installer Script
+      run: |
+        @'
+        ; GameLAN VPN Installer Script
+        #define AppName "GameLAN VPN"
+        #define AppVersion "${{ needs.create-release.outputs.version }}"
+        #define AppPublisher "GameLAN Team"
+        #define AppExeName "GameLANVPN.UI.exe"
+
+        [Setup]
+        AppId={{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
+        AppName={#AppName}
+        AppVersion={#AppVersion}
+        AppPublisher={#AppPublisher}
+        DefaultDirName={autopf}\{#AppName}
+        DefaultGroupName={#AppName}
+        OutputDir=output
+        OutputBaseFilename=GameLANVPN-Setup-v{#AppVersion}
+        Compression=lzma
+        SolidCompression=yes
+        PrivilegesRequired=admin
+
+        [Languages]
+        Name: "english"; MessagesFile: "compiler:Default.isl"
+
+        [Tasks]
+        Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
+
+        [Files]
+        Source: "installer\client\*"; DestDir: "{app}\Client"; Flags: ignoreversion recursesubdirs
+        Source: "installer\server\*"; DestDir: "{app}\Server"; Flags: ignoreversion recursesubdirs
+
+        [Icons]
+        Name: "{group}\{#AppName} Client"; Filename: "{app}\Client\{#AppExeName}"
+        Name: "{group}\{#AppName} Server"; Filename: "{app}\Server\GameLANVPN.Server.exe"
+        Name: "{autodesktop}\{#AppName}"; Filename: "{app}\Client\{#AppExeName}"; Tasks: desktopicon
+
+        [Run]
+        Filename: "{app}\Client\{#AppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+        '@ | Out-File -FilePath GameLANVPN/installer.iss -Encoding UTF8
+      shell: powershell
+
+    - name: Compile Installer
+      run: |
+        choco install innosetup -y
+        iscc GameLANVPN/installer.iss
+      continue-on-error: true
+
+    - name: Upload Installer
+      if: success()
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: GameLANVPN/output/GameLANVPN-Setup-v${{ needs.create-release.outputs.version }}.exe
+        asset_name: GameLANVPN-Setup-v${{ needs.create-release.outputs.version }}.exe
+        asset_content_type: application/octet-stream

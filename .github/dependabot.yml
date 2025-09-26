@@ -1,0 +1,36 @@
+version: 2
+updates:
+  # NuGet packages for .NET
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    assignees:
+      - "yosasasutsut"
+    labels:
+      - "dependencies"
+      - "dotnet"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "yosasasutsut"
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # Docker dependencies
+  - package-ecosystem: "docker"
+    directory: "/src/Server"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "yosasasutsut"
+    labels:
+      - "dependencies"
+      - "docker"

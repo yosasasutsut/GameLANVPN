@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+  gamelanvpn-server:
+    build:
+      context: .
+      dockerfile: src/Server/Dockerfile
+    container_name: gamelanvpn-server
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+      - "6112-6119:6112-6119/udp"
+      - "27015:27015/udp"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5000;https://+:5001
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/gamelanvpn.db
+      - JWT__Secret=${JWT_SECRET:-your-secret-key-change-this-in-production}
+      - JWT__Issuer=GameLANVPN
+      - JWT__Audience=GameLANVPNClients
+    volumes:
+      - gamelanvpn-data:/app/data
+      - gamelanvpn-logs:/app/logs
+    networks:
+      - gamelanvpn-network
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  gamelanvpn-db:
+    image: postgres:16-alpine
+    container_name: gamelanvpn-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=gamelanvpn
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-changeMe123!}
+      - POSTGRES_DB=gamelanvpn
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - gamelanvpn-network
+    ports:
+      - "5432:5432"
+
+  gamelanvpn-redis:
+    image: redis:7-alpine
+    container_name: gamelanvpn-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redisPass123!}
+    volumes:
+      - redis-data:/data
+    networks:
+      - gamelanvpn-network
+    ports:
+      - "6379:6379"
+
+  gamelanvpn-monitor:
+    image: prom/prometheus:latest
+    container_name: gamelanvpn-monitor
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - gamelanvpn-network
+    ports:
+      - "9090:9090"
+
+  gamelanvpn-grafana:
+    image: grafana/grafana:latest
+    container_name: gamelanvpn-grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=redis-datasource
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/dashboards:/etc/grafana/provisioning/dashboards
+    networks:
+      - gamelanvpn-network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - gamelanvpn-monitor
+
+networks:
+  gamelanvpn-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  gamelanvpn-data:
+  gamelanvpn-logs:
+  postgres-data:
+  redis-data:
+  prometheus-data:
+  grafana-data:
