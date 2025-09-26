@@ -64,7 +64,17 @@ public class VirtualAdapter
 
     public void SendPacket(byte[] packetData)
     {
-        _device?.SendPacket(packetData);
+        try
+        {
+            if (_device is IInjectionDevice injectionDevice)
+            {
+                injectionDevice.SendPacket(packetData);
+            }
+        }
+        catch
+        {
+            // Fallback: ignore if injection not supported
+        }
     }
 
     private void OnPacketArrival(object sender, PacketCapture e)

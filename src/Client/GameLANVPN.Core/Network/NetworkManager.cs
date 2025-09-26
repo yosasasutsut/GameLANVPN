@@ -185,7 +185,7 @@ public class NetworkManager : INetworkManager, IDisposable
             }
             else
             {
-                _logger.LogWarning("Failed to join room: {Error}", result.Error);
+                _logger.LogWarning("Failed to join room: {Error}", (string)result.Error);
             }
         }
         catch (Exception ex)
@@ -246,7 +246,7 @@ public class NetworkManager : INetworkManager, IDisposable
 
         _hubConnection.On<dynamic>("PlayerJoined", (player) =>
         {
-            _logger.LogInformation("Player joined: {PlayerName} ({VirtualIP})", player.PlayerName, player.VirtualIP);
+            _logger.LogInformation("Player joined: {PlayerName} ({VirtualIP})", (string)player.PlayerName, (string)player.VirtualIP);
         });
 
         _hubConnection.On<string>("PlayerLeft", (connectionId) =>
