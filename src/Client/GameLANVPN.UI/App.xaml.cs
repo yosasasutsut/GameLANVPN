@@ -1,3 +1,4 @@
+using GameLANVPN.UI.Views;
 using System.Windows;
 using Microsoft.Extensions.Logging;
 
@@ -21,6 +22,11 @@ namespace GameLANVPN.UI
             _logger = loggerFactory.CreateLogger<App>();
 
             _logger?.LogInformation("GameLAN VPN Client starting...");
+
+            // Show login window instead of main window
+            var loginWindow = new LoginWindow();
+            MainWindow = loginWindow;
+            loginWindow.Show();
         }
 
         protected override void OnExit(ExitEventArgs e)
