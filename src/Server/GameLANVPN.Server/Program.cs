@@ -1,4 +1,7 @@
 using GameLANVPN.Server.Hubs;
+using GameLANVPN.Server.Data;
+using GameLANVPN.Server.Services;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +38,13 @@ builder.Services.AddCors(options =>
 // Add health checks
 builder.Services.AddHealthChecks();
 
+// Add Entity Framework
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=gamelanvpn.db"));
+
+// Add custom services
+builder.Services.AddScoped<IUserService, UserService>();
+
 // Add controllers for API endpoints
 builder.Services.AddControllers();
 
@@ -49,6 +59,17 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 app.UseCors();
 
+// Serve static files and enable default files
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+// Ensure database is created
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Database.EnsureCreated();
+}
+
 // Health check endpoint
 app.MapHealthChecks("/health");
 
@@ -58,8 +79,6 @@ app.MapHub<GameHub>("/gamehub");
 // API routes
 app.MapControllers();
 
-// Serve static files for client downloads
-app.UseStaticFiles();
 
 // Default route
 app.MapGet("/", () => Results.Json(new
