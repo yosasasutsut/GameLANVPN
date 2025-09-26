@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🚀 Feature Request
+    url: https://github.com/yosasasutsut/GameLANVPN/discussions
+    about: Suggest new features or improvements
+  - name: 🐛 Bug Report
+    url: https://github.com/yosasasutsut/GameLANVPN/issues/new
+    about: Report bugs or issues
+  - name: 📚 Documentation
+    url: https://github.com/yosasasutsut/GameLANVPN/wiki
+    about: Check documentation and guides

@@ -4,33 +4,41 @@ updates:
   - package-ecosystem: "nuget"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "monday"
-    open-pull-requests-limit: 10
-    assignees:
-      - "yosasasutsut"
+    open-pull-requests-limit: 3
     labels:
       - "dependencies"
       - "dotnet"
+    # Group minor and patch updates
+    groups:
+      nuget-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    # Only security updates for major versions
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
-  # GitHub Actions
+  # GitHub Actions - less frequent
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-    assignees:
-      - "yosasasutsut"
+      interval: "monthly"
+    open-pull-requests-limit: 2
     labels:
       - "dependencies"
       - "github-actions"
 
-  # Docker dependencies
+  # Docker dependencies - quarterly
   - package-ecosystem: "docker"
     directory: "/src/Server"
     schedule:
-      interval: "weekly"
-    assignees:
-      - "yosasasutsut"
+      interval: "monthly"
+    open-pull-requests-limit: 1
     labels:
       - "dependencies"
       - "docker"
