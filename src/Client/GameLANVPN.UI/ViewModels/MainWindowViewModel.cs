@@ -5,6 +5,14 @@ using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Windows;
+using GameLANVPN.Core.Games;
+using System.Windows.Controls;
+using Orientation = System.Windows.Controls.Orientation;
+using StackPanel = System.Windows.Controls.StackPanel;
+using Label = System.Windows.Controls.Label;
+using TextBox = System.Windows.Controls.TextBox;
+using Button = System.Windows.Controls.Button;
+using TextBlock = System.Windows.Controls.TextBlock;
 
 namespace GameLANVPN.UI.ViewModels;
 
@@ -289,17 +297,17 @@ public class CreateRoomDialog : Window
         // Create simple dialog UI
         var stackPanel = new StackPanel { Margin = new Thickness(20) };
 
-        stackPanel.Children.Add(new System.Windows.Controls.Label { Content = "Game Name:" });
-        var gameNameTextBox = new System.Windows.Controls.TextBox { Text = GameName };
+        stackPanel.Children.Add(new Label { Content = "Game Name:" });
+        var gameNameTextBox = new TextBox { Text = GameName };
         stackPanel.Children.Add(gameNameTextBox);
 
-        stackPanel.Children.Add(new System.Windows.Controls.Label { Content = "Max Players:" });
-        var maxPlayersTextBox = new System.Windows.Controls.TextBox { Text = MaxPlayers.ToString() };
+        stackPanel.Children.Add(new Label { Content = "Max Players:" });
+        var maxPlayersTextBox = new TextBox { Text = MaxPlayers.ToString() };
         stackPanel.Children.Add(maxPlayersTextBox);
 
         var buttonPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 20, 0, 0) };
 
-        var okButton = new System.Windows.Controls.Button { Content = "OK", Margin = new Thickness(0, 0, 10, 0), Padding = new Thickness(20, 5, 20, 5) };
+        var okButton = new Button { Content = "OK", Margin = new Thickness(0, 0, 10, 0), Padding = new Thickness(20, 5, 20, 5) };
         okButton.Click += (s, e) => {
             GameName = gameNameTextBox.Text;
             if (int.TryParse(maxPlayersTextBox.Text, out int players))
@@ -307,7 +315,7 @@ public class CreateRoomDialog : Window
             DialogResult = true;
         };
 
-        var cancelButton = new System.Windows.Controls.Button { Content = "Cancel", Padding = new Thickness(20, 5, 20, 5) };
+        var cancelButton = new Button { Content = "Cancel", Padding = new Thickness(20, 5, 20, 5) };
         cancelButton.Click += (s, e) => DialogResult = false;
 
         buttonPanel.Children.Add(okButton);
@@ -327,7 +335,7 @@ public class SettingsWindow : Window
         Height = 300;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-        Content = new System.Windows.Controls.TextBlock
+        Content = new TextBlock
         {
             Text = "Settings will be implemented here",
             HorizontalAlignment = HorizontalAlignment.Center,
