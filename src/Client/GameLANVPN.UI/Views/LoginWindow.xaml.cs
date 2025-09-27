@@ -1,5 +1,6 @@
 using GameLANVPN.UI.ViewModels;
 using System.Windows;
+using System.Windows.Input;
 
 namespace GameLANVPN.UI.Views
 {
@@ -9,6 +10,14 @@ namespace GameLANVPN.UI.Views
         {
             InitializeComponent();
             DataContext = new LoginViewModel();
+
+            // Allow window dragging
+            MouseLeftButtonDown += (s, e) => {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    DragMove();
+                }
+            };
 
             // Focus on username field when window loads
             Loaded += (s, e) => {
@@ -33,6 +42,11 @@ namespace GameLANVPN.UI.Views
             Application.Current.MainWindow = mainWindow;
             mainWindow.Show();
             this.Close();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

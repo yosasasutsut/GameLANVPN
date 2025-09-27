@@ -1,0 +1,213 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Warcraft III / DotA Color Palette -->
+    <Color x:Key="WarcraftGold">#FFD700</Color>
+    <Color x:Key="WarcraftBlue">#1E3A5F</Color>
+    <Color x:Key="WarcraftDarkBlue">#0C1F3D</Color>
+    <Color x:Key="WarcraftLightBlue">#4A90E2</Color>
+    <Color x:Key="WarcraftRed">#8B0000</Color>
+    <Color x:Key="WarcraftGreen">#2E7D32</Color>
+    <Color x:Key="WarcraftPurple">#4A148C</Color>
+    <Color x:Key="WarcraftBronze">#CD7F32</Color>
+    <Color x:Key="WarcraftSilver">#C0C0C0</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="GoldBrush" Color="{StaticResource WarcraftGold}"/>
+    <SolidColorBrush x:Key="BlueBrush" Color="{StaticResource WarcraftBlue}"/>
+    <SolidColorBrush x:Key="DarkBlueBrush" Color="{StaticResource WarcraftDarkBlue}"/>
+
+    <!-- Gradient Brushes -->
+    <LinearGradientBrush x:Key="WarcraftBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#0C1F3D" Offset="0"/>
+        <GradientStop Color="#1E3A5F" Offset="0.5"/>
+        <GradientStop Color="#0C1F3D" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="GoldGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FFF8DC" Offset="0"/>
+        <GradientStop Color="#FFD700" Offset="0.5"/>
+        <GradientStop Color="#B8860B" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="ButtonGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#4A90E2" Offset="0"/>
+        <GradientStop Color="#1E3A5F" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- Glow Effect -->
+    <DropShadowEffect x:Key="GoldGlowEffect"
+                      Color="#FFD700"
+                      Direction="0"
+                      ShadowDepth="0"
+                      BlurRadius="20"
+                      Opacity="0.8"/>
+
+    <DropShadowEffect x:Key="BlueGlowEffect"
+                      Color="#4A90E2"
+                      Direction="0"
+                      ShadowDepth="0"
+                      BlurRadius="15"
+                      Opacity="0.6"/>
+
+    <!-- Medieval Style Button -->
+    <Style x:Key="WarcraftButton" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource ButtonGradientBrush}"/>
+        <Setter Property="Foreground" Value="#FFD700"/>
+        <Setter Property="BorderBrush" Value="#FFD700"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="FontFamily" Value="Palatino Linotype"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Padding" Value="20,10"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
+                        <Grid>
+                            <!-- Inner Border for depth -->
+                            <Border BorderBrush="#B8860B"
+                                    BorderThickness="1"
+                                    CornerRadius="3"
+                                    Margin="1">
+                                <Border BorderBrush="#FFF8DC"
+                                        BorderThickness="1"
+                                        CornerRadius="2"
+                                        Margin="1"/>
+                            </Border>
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="{TemplateBinding Padding}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Effect" Value="{StaticResource GoldGlowEffect}"/>
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#5BA0F2" Offset="0"/>
+                                        <GradientStop Color="#2E4A6F" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#1E3A5F" Offset="0"/>
+                                        <GradientStop Color="#0C1F3D" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Medieval Style TextBox -->
+    <Style x:Key="WarcraftTextBox" TargetType="TextBox">
+        <Setter Property="Background" Value="#1A1A2E"/>
+        <Setter Property="Foreground" Value="#FFD700"/>
+        <Setter Property="BorderBrush" Value="#B8860B"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="FontFamily" Value="Palatino Linotype"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="10,8"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                        Margin="{TemplateBinding Padding}"/>
+                            <TextBlock x:Name="Hint"
+                                     Text="{TemplateBinding Tag}"
+                                     Foreground="#80FFD700"
+                                     Margin="{TemplateBinding Padding}"
+                                     VerticalAlignment="Center"
+                                     Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Text" Value=""/>
+                                <Condition Property="IsFocused" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Hint" Property="Visibility" Value="Visible"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="#FFD700"/>
+                            <Setter Property="Effect" Value="{StaticResource BlueGlowEffect}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Medieval Style PasswordBox -->
+    <Style x:Key="WarcraftPasswordBox" TargetType="PasswordBox">
+        <Setter Property="Background" Value="#1A1A2E"/>
+        <Setter Property="Foreground" Value="#FFD700"/>
+        <Setter Property="BorderBrush" Value="#B8860B"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="FontFamily" Value="Palatino Linotype"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="10,8"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                    Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="#FFD700"/>
+                            <Setter Property="Effect" Value="{StaticResource BlueGlowEffect}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Title Text Style -->
+    <Style x:Key="WarcraftTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Palatino Linotype"/>
+        <Setter Property="FontSize" Value="36"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{StaticResource GoldGradientBrush}"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.8"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Subtitle Text Style -->
+    <Style x:Key="WarcraftSubtitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Palatino Linotype"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="#C0C0C0"/>
+        <Setter Property="FontStyle" Value="Italic"/>
+    </Style>
+
+</ResourceDictionary>

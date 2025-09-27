@@ -84,13 +84,16 @@ app.MapControllers();
 app.MapGet("/", () => Results.Json(new
 {
     Name = "GameLAN VPN Server",
-    Version = "0.1.0",
+    Version = "0.2.0",
     Status = "Running",
+    Features = new[] { "Web Registration", "User Authentication", "Gaming Hub", "SQLite Database" },
     Endpoints = new
     {
+        Registration = "/",
         GameHub = "/gamehub",
         Health = "/health",
-        API = "/api"
+        API = "/api",
+        Auth = "/api/auth"
     }
 }));
 
