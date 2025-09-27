@@ -80,8 +80,8 @@ app.MapHub<GameHub>("/gamehub");
 app.MapControllers();
 
 
-// Default route
-app.MapGet("/", () => Results.Json(new
+// API info route (moved to /info to avoid conflict with static files)
+app.MapGet("/info", () => Results.Json(new
 {
     Name = "GameLAN VPN Server",
     Version = "0.2.0",

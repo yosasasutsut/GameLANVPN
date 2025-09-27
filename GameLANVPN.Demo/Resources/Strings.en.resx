@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+
+  <!-- Login Window -->
+  <data name="LoginTitle">
+    <value>🐉 DRAGON'S GATE 🐉</value>
+  </data>
+  <data name="LoginSubtitle">
+    <value>GameLAN VPN Portal</value>
+  </data>
+  <data name="UsernameLabel">
+    <value>🗡️ Warrior Name</value>
+  </data>
+  <data name="PasswordLabel">
+    <value>🔑 Secret Rune</value>
+  </data>
+  <data name="LoginButton">
+    <value>⚔️ ENTER THE REALM ⚔️</value>
+  </data>
+  <data name="LoginSuccess">
+    <value>🔥 Welcome, Dragon Slayer! Opening the gates... 🔥</value>
+  </data>
+  <data name="LoginFailed">
+    <value>❌ The ancient runes reject your offering! Try again...</value>
+  </data>
+  <data name="FooterText">
+    <value>🔥 Forge your legend in the virtual realm 🔥</value>
+  </data>
+
+  <!-- Main Window -->
+  <data name="MainTitle">
+    <value>🔥 INFERNAL CHANNELS 🔥</value>
+  </data>
+  <data name="MainSubtitle">
+    <value>Enter the burning realms to find fellow warriors</value>
+  </data>
+  <data name="ForgeChannelButton">
+    <value>⚡ Forge Channel</value>
+  </data>
+  <data name="RefreshButton">
+    <value>🔄 Refresh Realms</value>
+  </data>
+  <data name="LogoutButton">
+    <value>🚪 Logout</value>
+  </data>
+
+  <!-- Channels -->
+  <data name="BurningHellsTitle">
+    <value>Burning Hells</value>
+  </data>
+  <data name="BurningHellsDesc">
+    <value>Where demons gather to plot their next conquest • Souls: 487/500</value>
+  </data>
+  <data name="JoinHellButton">
+    <value>🔥 Enter Hell</value>
+  </data>
+  <data name="WarriorsSanctumTitle">
+    <value>Warriors' Sanctum</value>
+  </data>
+  <data name="WarriorsSanctumDesc">
+    <value>Forge alliances and prepare for epic battles • Heroes: 312/500</value>
+  </data>
+  <data name="JoinBattleButton">
+    <value>⚔️ Join Battle</value>
+  </data>
+
+  <!-- Chat -->
+  <data name="LeaveChannelButton">
+    <value>Leave Channel</value>
+  </data>
+  <data name="ChatPlaceholder">
+    <value>Type your message here...</value>
+  </data>
+  <data name="SendButton">
+    <value>Send</value>
+  </data>
+  <data name="JoinedChannel">
+    <value>You have joined</value>
+  </data>
+
+  <!-- Right Panel -->
+  <data name="DarkChampionTitle">
+    <value>💀 DARK CHAMPION 💀</value>
+  </data>
+  <data name="EnhancePowerButton">
+    <value>⚔️ Enhance Power</value>
+  </data>
+  <data name="InfernalNexusTitle">
+    <value>🌐 INFERNAL NEXUS 🌐</value>
+  </data>
+  <data name="HellPortalDelay">
+    <value>Hell Portal Delay:</value>
+  </data>
+  <data name="SoulTransmission">
+    <value>Soul Transmission:</value>
+  </data>
+  <data name="DarkEnergyFlow">
+    <value>Dark Energy Flow:</value>
+  </data>
+  <data name="DemonIP">
+    <value>Demon IP:</value>
+  </data>
+  <data name="AwaitingSummon">
+    <value>Awaiting summon</value>
+  </data>
+  <data name="CursedArsenalTitle">
+    <value>⚔️ CURSED ARSENAL ⚔️</value>
+  </data>
+  <data name="SeekDarkPowersButton">
+    <value>🔍 Seek Dark Powers</value>
+  </data>
+
+  <!-- Footer -->
+  <data name="FooterMainText">
+    <value>🔥 The eternal war rages on • Choose your realm and join the infernal battle 🔥</value>
+  </data>
+  <data name="DamnedSouls">
+    <value>Damned Souls: 799</value>
+  </data>
+
+  <!-- Language -->
+  <data name="LanguageSelector">
+    <value>Language</value>
+  </data>
+  <data name="Thai">
+    <value>🇹🇭 ไทย</value>
+  </data>
+  <data name="English">
+    <value>🇺🇸 English</value>
+  </data>
+</root>

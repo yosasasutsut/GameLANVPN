@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+
+  <!-- Login Window -->
+  <data name="LoginTitle">
+    <value>🐉 ประตูมังกร 🐉</value>
+  </data>
+  <data name="LoginSubtitle">
+    <value>พอร์ทัล GameLAN VPN</value>
+  </data>
+  <data name="UsernameLabel">
+    <value>🗡️ ชื่อนักรบ</value>
+  </data>
+  <data name="PasswordLabel">
+    <value>🔑 รหัสลับ</value>
+  </data>
+  <data name="LoginButton">
+    <value>⚔️ เข้าสู่อาณาจักร ⚔️</value>
+  </data>
+  <data name="LoginSuccess">
+    <value>🔥 ยินดีต้อนรับ นักฆ่ามังกร! กำลังเปิดประตู... 🔥</value>
+  </data>
+  <data name="LoginFailed">
+    <value>❌ รูนโบราณปฏิเสธเครื่องบูชาของคุณ! ลองใหม่อีกครั้ง...</value>
+  </data>
+  <data name="FooterText">
+    <value>🔥 สร้างตำนานของคุณในอาณาจักรเสมือน 🔥</value>
+  </data>
+
+  <!-- Main Window -->
+  <data name="MainTitle">
+    <value>🔥 ช่องทางนรก 🔥</value>
+  </data>
+  <data name="MainSubtitle">
+    <value>เข้าสู่อาณาจักรไฟเพื่อค้นหาเพื่อนนักรบ</value>
+  </data>
+  <data name="ForgeChannelButton">
+    <value>⚡ สร้างช่องทาง</value>
+  </data>
+  <data name="RefreshButton">
+    <value>🔄 รีเฟรชอาณาจักร</value>
+  </data>
+  <data name="LogoutButton">
+    <value>🚪 ออกจากระบบ</value>
+  </data>
+
+  <!-- Channels -->
+  <data name="BurningHellsTitle">
+    <value>นรกเผาไหม้</value>
+  </data>
+  <data name="BurningHellsDesc">
+    <value>ที่ซึ่งปีศาจมารวมตัวกันเพื่อวางแผนการพิชิตครั้งต่อไป • วิญญาณ: 487/500</value>
+  </data>
+  <data name="JoinHellButton">
+    <value>🔥 เข้านรก</value>
+  </data>
+  <data name="WarriorsSanctumTitle">
+    <value>สถานศักดิ์สิทธิ์นักรบ</value>
+  </data>
+  <data name="WarriorsSanctumDesc">
+    <value>สร้างพันธมิตรและเตรียมพร้อมสำหรับการต่อสู้ที่ยิ่งใหญ่ • วีรบุรุษ: 312/500</value>
+  </data>
+  <data name="JoinBattleButton">
+    <value>⚔️ เข้าร่วมการต่อสู้</value>
+  </data>
+
+  <!-- Chat -->
+  <data name="LeaveChannelButton">
+    <value>ออกจากช่องทาง</value>
+  </data>
+  <data name="ChatPlaceholder">
+    <value>พิมพ์ข้อความของคุณที่นี่...</value>
+  </data>
+  <data name="SendButton">
+    <value>ส่ง</value>
+  </data>
+  <data name="JoinedChannel">
+    <value>คุณได้เข้าร่วม</value>
+  </data>
+
+  <!-- Right Panel -->
+  <data name="DarkChampionTitle">
+    <value>💀 แชมป์แห่งความมืด 💀</value>
+  </data>
+  <data name="EnhancePowerButton">
+    <value>⚔️ เพิ่มพลัง</value>
+  </data>
+  <data name="InfernalNexusTitle">
+    <value>🌐 เน็กซัสนรก 🌐</value>
+  </data>
+  <data name="HellPortalDelay">
+    <value>ความล่าช้าประตูนรก:</value>
+  </data>
+  <data name="SoulTransmission">
+    <value>การส่งวิญญาณ:</value>
+  </data>
+  <data name="DarkEnergyFlow">
+    <value>การไหลของพลังงานมืด:</value>
+  </data>
+  <data name="DemonIP">
+    <value>ไอพีปีศาจ:</value>
+  </data>
+  <data name="AwaitingSummon">
+    <value>รอการเรียกร้อง</value>
+  </data>
+  <data name="CursedArsenalTitle">
+    <value>⚔️ คลังแสงสาปแช่ง ⚔️</value>
+  </data>
+  <data name="SeekDarkPowersButton">
+    <value>🔍 แสวงหาพลังแห่งความมืด</value>
+  </data>
+
+  <!-- Footer -->
+  <data name="FooterMainText">
+    <value>🔥 สงครามนิรันดร์ยังคงดำเนินต่อไป • เลือกอาณาจักรของคุณและเข้าร่วมการต่อสู้นรก 🔥</value>
+  </data>
+  <data name="DamnedSouls">
+    <value>วิญญาณสาปแช่ง: 799</value>
+  </data>
+
+  <!-- Language -->
+  <data name="LanguageSelector">
+    <value>ภาษา</value>
+  </data>
+  <data name="Thai">
+    <value>🇹🇭 ไทย</value>
+  </data>
+  <data name="English">
+    <value>🇺🇸 English</value>
+  </data>
+</root>
