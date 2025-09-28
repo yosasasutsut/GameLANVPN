@@ -20,19 +20,19 @@
 
   <!-- Login Window -->
   <data name="LoginTitle">
-    <value>🐉 DRAGON'S GATE 🐉</value>
+    <value>🎮 GameLAN VPN 🎮</value>
   </data>
   <data name="LoginSubtitle">
-    <value>GameLAN VPN Portal</value>
+    <value></value>
   </data>
   <data name="UsernameLabel">
-    <value>🗡️ Warrior Name</value>
+    <value>👤 Username</value>
   </data>
   <data name="PasswordLabel">
-    <value>🔑 Secret Rune</value>
+    <value>🔑 Password</value>
   </data>
   <data name="LoginButton">
-    <value>⚔️ ENTER THE REALM ⚔️</value>
+    <value>🚀 LOGIN 🚀</value>
   </data>
   <data name="LoginSuccess">
     <value>🔥 Welcome, Dragon Slayer! Opening the gates... 🔥</value>

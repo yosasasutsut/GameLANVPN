@@ -57,13 +57,20 @@ namespace GameLANVPN.Demo
             Application.Current.Shutdown();
         }
 
+        private void LoginButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            StatusMessage.Text = "🔥 MouseDown detected! Processing login...";
+            StatusMessage.Foreground = System.Windows.Media.Brushes.Orange;
+            LoginButton_Click(sender, new RoutedEventArgs());
+        }
+
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string username = UsernameTextBox.Text.Trim();
             string password = PasswordBox.Password;
 
-            // Debug info
-            StatusMessage.Text = $"Debug: Username='{username}', Password='{password}'";
+            // Debug info - Show that button was clicked
+            StatusMessage.Text = $"🔍 Button clicked! Username='{username}', Password='{password}'";
             StatusMessage.Foreground = System.Windows.Media.Brushes.Yellow;
 
             // Simple test credentials
@@ -75,12 +82,25 @@ namespace GameLANVPN.Demo
                 // Simulate login delay
                 System.Threading.Tasks.Task.Delay(1500).ContinueWith(_ => {
                     Dispatcher.Invoke(() => {
-                        // Open main window
-                        MainWindow mainWindow = new MainWindow();
-                        mainWindow.Show();
+                        try
+                        {
+                            StatusMessage.Text = "🔄 Creating MainWindow...";
+                            StatusMessage.Foreground = System.Windows.Media.Brushes.Cyan;
 
-                        // Close login window
-                        this.Close();
+                            // Open main window
+                            MainWindow mainWindow = new MainWindow();
+                            StatusMessage.Text = "✅ MainWindow created, showing...";
+                            mainWindow.Show();
+
+                            StatusMessage.Text = "🚪 Closing login window...";
+                            // Close login window
+                            this.Close();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            StatusMessage.Text = $"❌ Error: {ex.Message}";
+                            StatusMessage.Foreground = System.Windows.Media.Brushes.Red;
+                        }
                     });
                 });
             }

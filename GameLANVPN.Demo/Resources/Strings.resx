@@ -20,19 +20,19 @@
 
   <!-- Login Window -->
   <data name="LoginTitle">
-    <value>🐉 ประตูมังกร 🐉</value>
+    <value>🎮 GameLAN VPN 🎮</value>
   </data>
   <data name="LoginSubtitle">
-    <value>พอร์ทัล GameLAN VPN</value>
+    <value></value>
   </data>
   <data name="UsernameLabel">
-    <value>🗡️ ชื่อนักรบ</value>
+    <value>👤 ชื่อผู้ใช้งาน</value>
   </data>
   <data name="PasswordLabel">
-    <value>🔑 รหัสลับ</value>
+    <value>🔑 รหัสผ่าน</value>
   </data>
   <data name="LoginButton">
-    <value>⚔️ เข้าสู่อาณาจักร ⚔️</value>
+    <value>🚀 เข้าสู่ระบบ 🚀</value>
   </data>
   <data name="LoginSuccess">
     <value>🔥 ยินดีต้อนรับ นักฆ่ามังกร! กำลังเปิดประตู... 🔥</value>
