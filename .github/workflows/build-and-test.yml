@@ -37,7 +37,6 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: GameLANVPN
 
     - name: Build Server Projects Only
       run: |
@@ -45,13 +44,16 @@ jobs:
         dotnet build src/Server/GameLANVPN.API/GameLANVPN.API.csproj --configuration ${{ env.CONFIGURATION }} --no-restore
         dotnet build src/Client/GameLANVPN.Core/GameLANVPN.Core.csproj --configuration ${{ env.CONFIGURATION }} --no-restore
         dotnet build src/Client/GameLANVPN.Client/GameLANVPN.Client.csproj --configuration ${{ env.CONFIGURATION }} --no-restore
-      working-directory: GameLANVPN
+
+    - name: Build Demo Project
+      run: |
+        dotnet build GameLANVPN.Demo/GameLANVPN.Demo.csproj --configuration ${{ env.CONFIGURATION }} --no-restore
+      continue-on-error: true
 
     - name: Run tests
       run: |
         echo "Skipping tests - no test projects currently configured"
         echo "Server and API projects built successfully"
-      working-directory: GameLANVPN
       continue-on-error: true
 
     - name: Upload test results
@@ -59,7 +61,7 @@ jobs:
       if: always()
       with:
         name: test-results
-        path: GameLANVPN/**/test-results.trx
+        path: ./**/test-results.trx
 
     - name: Build Client Application
       run: |
@@ -67,24 +69,33 @@ jobs:
         echo "Building Core and Client libraries only"
         dotnet publish src/Client/GameLANVPN.Core/GameLANVPN.Core.csproj --configuration ${{ env.CONFIGURATION }} --output ./publish/core --runtime win-x64
         dotnet publish src/Client/GameLANVPN.Client/GameLANVPN.Client.csproj --configuration ${{ env.CONFIGURATION }} --output ./publish/client --runtime win-x64
-      working-directory: GameLANVPN
       continue-on-error: true
 
     - name: Build Server Application
       run: dotnet publish src/Server/GameLANVPN.Server/GameLANVPN.Server.csproj --configuration ${{ env.CONFIGURATION }} --output ./publish/server --self-contained true --runtime win-x64
-      working-directory: GameLANVPN
+
+    - name: Build Demo Application
+      run: dotnet publish GameLANVPN.Demo/GameLANVPN.Demo.csproj --configuration ${{ env.CONFIGURATION }} --output ./publish/demo --runtime win-x64
+      continue-on-error: true
 
     - name: Upload Client Artifact
       uses: actions/upload-artifact@v3
       with:
         name: GameLANVPN-Client-${{ github.sha }}
-        path: GameLANVPN/publish/client/
+        path: ./publish/client/
 
     - name: Upload Server Artifact
       uses: actions/upload-artifact@v3
       with:
         name: GameLANVPN-Server-${{ github.sha }}
-        path: GameLANVPN/publish/server/
+        path: ./publish/server/
+
+    - name: Upload Demo Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: GameLANVPN-Demo-${{ github.sha }}
+        path: ./publish/demo/
+      if: always()
 
   code-analysis:
     runs-on: windows-latest
@@ -104,12 +115,10 @@ jobs:
 
     - name: Check code formatting
       run: dotnet format --verify-no-changes --verbosity diagnostic
-      working-directory: GameLANVPN
       continue-on-error: true
 
     - name: Security scan
       run: |
         dotnet tool install -g security-scan
         security-scan GameLANVPN.sln
-      working-directory: GameLANVPN
       continue-on-error: true
