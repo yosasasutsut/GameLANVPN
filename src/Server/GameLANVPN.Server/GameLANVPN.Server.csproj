@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.30" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.30" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.31" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.31" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
   </ItemGroup>
 
